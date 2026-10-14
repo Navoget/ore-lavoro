@@ -47,7 +47,7 @@
 
   <section id="history" class="page">
     <header><div><h1>Storico</h1><div id="monthTotal" class="date"></div></div><button class="iconbtn" onclick="showPage('today')">＋</button></header>
-    <div class="month-head"><button onclick="changeMonth(-1)">‹</button><strong id="monthName"></strong><button onclick="changeMonth(1)">›</button></div>
+    <div class="month-head"><button onclick="changeMonth(-1)" aria-label="Mese precedente">‹</button><strong id="monthName"></strong><button onclick="changeMonth(1)" aria-label="Mese successivo">›</button></div><div class="small" style="margin:0 0 10px 2px">Tocca un giorno per aggiungere o modificare le ore.</div>
     <div class="calendar"><div class="week"><div>Lun</div><div>Mar</div><div>Mer</div><div>Gio</div><div>Ven</div><div>Sab</div><div>Dom</div></div><div id="calendarDays" class="days"></div></div>
     <div id="dayPanel"></div>
     <div id="historyList" style="margin-top:14px"></div>
@@ -65,7 +65,14 @@
 </nav>
 <script>
 const KEY="ore_lavoro_v1";
-let data=JSON.parse(localStorage.getItem(KEY)||'{"shifts":[]}');
+function loadData(){
+  try{
+    const raw=JSON.parse(localStorage.getItem(KEY)||'{"shifts":[]}');
+    const shifts=Array.isArray(raw?.shifts)?raw.shifts:[];
+    return {shifts:shifts.filter(x=>x&&typeof x.date==='string'&&typeof x.from==='string'&&typeof x.to==='string'&&Number.isFinite(Number(x.minutes))).map(x=>({...x,minutes:Number(x.minutes)}))};
+  }catch(e){return {shifts:[]}}
+}
+let data=loadData();
 let viewDate=new Date(); let selectedDate=todayKey(); let running=null;
 const pad=n=>String(n).padStart(2,"0");
 const iso=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
@@ -108,8 +115,18 @@ function showPage(p){
   document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active"));document.getElementById("nav"+p[0].toUpperCase()+p.slice(1)).classList.add("active");
   if(p==="history")renderHistory();
 }
-function changeMonth(n){viewDate.setMonth(viewDate.getMonth()+n);selectedDate=null;renderHistory()}
-function showDay(k){if(isFuture(k))return;selectedDate=k;renderHistory()}
+function changeMonth(n){
+  viewDate=new Date(viewDate.getFullYear(),viewDate.getMonth()+n,1);
+  selectedDate=null;
+  renderHistory();
+}
+function showDay(k){
+  if(isFuture(k))return;
+  selectedDate=k;
+  const d=new Date(k+"T00:00:00");
+  viewDate=new Date(d.getFullYear(),d.getMonth(),1);
+  renderHistory();
+}
 function renderSelectedDay(){
   const box=document.getElementById("dayPanel");
   if(!selectedDate){box.innerHTML="";return}
@@ -124,6 +141,9 @@ function renderSelectedDay(){
 }
 function renderHistory(){
   const y=viewDate.getFullYear(),m=viewDate.getMonth(),first=new Date(y,m,1),last=new Date(y,m+1,0),start=(first.getDay()+6)%7;
+  if(!Array.isArray(data.shifts)) data={shifts:[]};
+  data.shifts=data.shifts.filter(x=>x&&typeof x.date==='string'&&Number.isFinite(Number(x.minutes)));
+
   document.getElementById("monthName").textContent=first.toLocaleDateString("it-IT",{month:"long",year:"numeric"});
   let html="";for(let i=0;i<start;i++)html+="<div></div>";
   for(let d=1;d<=last.getDate();d++){
