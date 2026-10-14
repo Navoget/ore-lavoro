@@ -21,8 +21,9 @@
     .section-title{font-size:17px;margin:24px 0 11px}.manual{background:#fff;border-radius:20px;padding:15px;box-shadow:0 2px 15px #00000006}.row{display:flex;gap:10px}.field{flex:1}.field label{display:block;font-size:13px;color:#777;margin:0 0 5px}.field input{width:100%;border:1px solid var(--line);border-radius:13px;padding:13px;font-size:17px}.add{margin-top:11px;width:100%;border:0;border-radius:13px;background:var(--green2);padding:13px;font-size:16px}
     .shift{background:#fff;border-radius:17px;padding:16px;margin-top:8px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 15px #00000006}.small{font-size:14px;color:#777}.danger{border:0;background:none;color:#a44;font-size:13px}
     nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,100%);background:#fff;border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:10px 8px calc(10px + env(safe-area-inset-bottom));z-index:5}nav button{border:0;background:none;color:#888;font-size:12px;display:flex;flex-direction:column;align-items:center;gap:4px}nav button.active{color:var(--green);font-weight:600}nav span{font-size:22px}
-    .page{display:none}.page.active{display:block}.month-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.month-head button{border:0;background:#fff;border-radius:12px;padding:8px 12px}.calendar{background:#fff;border-radius:20px;padding:14px;box-shadow:0 2px 15px #00000006}.week,.days{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;gap:5px}.week div{font-size:12px;color:#888;padding:5px}.day{padding:10px 0;border-radius:50%;font-size:14px;position:relative}.day.today{background:var(--green);color:#fff}.day.has:after{content:"";position:absolute;bottom:3px;left:50%;width:4px;height:4px;border-radius:50%;background:var(--green);transform:translateX(-50%)}.day.today.has:after{background:#fff}
-    .history-item{background:#fff;border-radius:17px;padding:15px;margin-top:8px;display:flex;justify-content:space-between;box-shadow:0 2px 15px #00000006}.settings-card{background:#fff;border-radius:20px;padding:18px}.reset{margin-top:18px;border:0;background:#f3dddd;color:#8b3333;border-radius:13px;padding:13px;width:100%}
+    .page{display:none}.page.active{display:block}.month-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.month-head button{border:0;background:#fff;border-radius:12px;padding:8px 12px}.calendar{background:#fff;border-radius:20px;padding:14px;box-shadow:0 2px 15px #00000006}.week,.days{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;gap:5px}.week div{font-size:12px;color:#888;padding:5px}.day{padding:10px 0;border-radius:50%;font-size:14px;position:relative;cursor:pointer}.day:hover{background:#f0eee9}.day.today{background:var(--green);color:#fff}.day.today:hover{background:var(--green)}.day.future{color:#c7c4be;cursor:default}.day.future:hover{background:transparent}.day.selected:not(.today){background:var(--green2)}.day.has:after{content:"";position:absolute;bottom:3px;left:50%;width:4px;height:4px;border-radius:50%;background:var(--green);transform:translateX(-50%)}.day.today.has:after{background:#fff}
+    .day-panel{background:#fff;border-radius:20px;padding:17px;margin-top:14px;box-shadow:0 2px 15px #00000006}.day-panel-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}.day-panel h2{font:400 24px Georgia,serif;margin:0 0 4px}.day-total{font:400 24px Georgia,serif;white-space:nowrap}.day-panel .manual{box-shadow:none;background:#f8f7f3;margin-top:14px;padding:13px}.day-panel .section-title{margin:18px 0 8px;font-size:15px}.day-panel .shift{box-shadow:none;border:1px solid var(--line);padding:12px;margin-top:7px}.day-panel .add{background:var(--green);color:#fff}.day-panel-note{font-size:13px;color:#777;margin:8px 0 0}.disabled-add{opacity:.55;pointer-events:none}
+    .history-item{background:#fff;border-radius:17px;padding:15px;margin-top:8px;display:flex;justify-content:space-between;box-shadow:0 2px 15px #00000006;cursor:pointer}.settings-card{background:#fff;border-radius:20px;padding:18px}.reset{margin-top:18px;border:0;background:#f3dddd;color:#8b3333;border-radius:13px;padding:13px;width:100%}
     .empty{color:#888;text-align:center;padding:20px}
   </style>
 </head>
@@ -31,16 +32,16 @@
   <section id="today" class="page active">
     <header><div><h1>Oggi</h1><div id="todayDate" class="date"></div></div><button class="iconbtn" onclick="showPage('history')">▣</button></header>
     <div class="total">
-  <div class="label">ORE DI OGGI</div>
-  <div id="todayTotal" class="hours">0h 00m</div>
-  <div style="height:1px;background:#ddd8ce;margin:18px 0 14px"></div>
-  <div class="label" id="monthLabel">OTTOBRE</div>
-  <div id="monthQuick" style="font:400 28px Georgia,serif;margin-top:5px">0h 00m</div>
-</div>
+      <div class="label">ORE DI OGGI</div>
+      <div id="todayTotal" class="hours">0h 00m</div>
+      <div style="height:1px;background:#ddd8ce;margin:18px 0 14px"></div>
+      <div class="label" id="monthLabel">OTTOBRE</div>
+      <div id="monthQuick" style="font:400 28px Georgia,serif;margin-top:5px">0h 00m</div>
+    </div>
     <button id="startBtn" class="primary" onclick="startWork()">▶ Inizia lavoro</button>
     <button id="stopBtn" class="secondary" onclick="stopWork()" disabled>■ Termina lavoro</button>
     <div class="section-title">Oppure inserisci manualmente</div>
-    <div class="manual"><div class="row"><div class="field"><label>Dalle</label><input id="from" type="time"></div><div class="field"><label>Alle</label><input id="to" type="time"></div></div><button class="add" onclick="addManual()">Aggiungi ore</button></div>
+    <div class="manual"><div class="row"><div class="field"><label>Dalle</label><input id="from" type="time"></div><div class="field"><label>Alle</label><input id="to" type="time"></div></div><button class="add" onclick="addManualToday()">Aggiungi ore</button></div>
     <div class="section-title">Turni di oggi</div><div id="todayShifts"></div>
   </section>
 
@@ -48,6 +49,7 @@
     <header><div><h1>Storico</h1><div id="monthTotal" class="date"></div></div><button class="iconbtn" onclick="showPage('today')">＋</button></header>
     <div class="month-head"><button onclick="changeMonth(-1)">‹</button><strong id="monthName"></strong><button onclick="changeMonth(1)">›</button></div>
     <div class="calendar"><div class="week"><div>Lun</div><div>Mar</div><div>Mer</div><div>Gio</div><div>Ven</div><div>Sab</div><div>Dom</div></div><div id="calendarDays" class="days"></div></div>
+    <div id="dayPanel"></div>
     <div id="historyList" style="margin-top:14px"></div>
   </section>
 
@@ -64,45 +66,79 @@
 <script>
 const KEY="ore_lavoro_v1";
 let data=JSON.parse(localStorage.getItem(KEY)||'{"shifts":[]}');
-let viewDate=new Date(); let running=null;
+let viewDate=new Date(); let selectedDate=todayKey(); let running=null;
 const pad=n=>String(n).padStart(2,"0");
 const iso=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
 const fmtDate=d=>d.toLocaleDateString("it-IT",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
 const fmtHours=min=>`${Math.floor(min/60)}h ${pad(min%60)}m`;
 function save(){localStorage.setItem(KEY,JSON.stringify(data))}
-function mins(a,b){let [ah,am]=a.split(":").map(Number),[bh,bm]=b.split(":").map(Number);let x=ah*60+am,y=bh*60+bm; if(y<x)y+=1440;return y-x}
+function mins(a,b){let [ah,am]=a.split(":").map(Number),[bh,bm]=b.split(":").map(Number);let x=ah*60+am,y=bh*60+bm;if(y<x)y+=1440;return y-x}
 function todayKey(){return iso(new Date())}
 function shiftsFor(k){return data.shifts.filter(x=>x.date===k)}
 function totalFor(k){return shiftsFor(k).reduce((s,x)=>s+x.minutes,0)}
+function isFuture(k){return k>todayKey()}
 function renderToday(){
- document.getElementById("todayDate").textContent=fmtDate(new Date());
- document.getElementById("todayTotal").textContent=fmtHours(totalFor(todayKey())+(running?Math.max(0,Math.round((Date.now()-running.ts)/60000)):0));
- const now=new Date(), ym=now.getFullYear()+"-"+pad(now.getMonth()+1), monthTotal=data.shifts.filter(x=>x.date.startsWith(ym)).reduce((s,x)=>s+x.minutes,0)+(running?Math.max(0,Math.round((Date.now()-running.ts)/60000)):0); document.getElementById("monthLabel").textContent=now.toLocaleDateString("it-IT",{month:"long"}).toUpperCase();
- document.getElementById("monthQuick").textContent=fmtHours(monthTotal);
- document.getElementById("stopBtn").disabled=!running; document.getElementById("startBtn").disabled=!!running;
- const box=document.getElementById("todayShifts"), arr=shiftsFor(todayKey());
- box.innerHTML=arr.length?arr.map((x,i)=>`<div class="shift"><div><strong>${x.from} – ${x.to}</strong><div class="small">${fmtHours(x.minutes)}</div></div><button class="danger" onclick="removeShift(${data.shifts.indexOf(x)})">Elimina</button></div>`).join(""):'<div class="empty">Nessun turno inserito oggi.</div>';
+  document.getElementById("todayDate").textContent=fmtDate(new Date());
+  document.getElementById("todayTotal").textContent=fmtHours(totalFor(todayKey())+(running?Math.max(0,Math.round((Date.now()-running.ts)/60000)):0));
+  const now=new Date(),ym=now.getFullYear()+"-"+pad(now.getMonth()+1),monthTotal=data.shifts.filter(x=>x.date.startsWith(ym)).reduce((s,x)=>s+x.minutes,0)+(running?Math.max(0,Math.round((Date.now()-running.ts)/60000)):0);
+  document.getElementById("monthLabel").textContent=now.toLocaleDateString("it-IT",{month:"long"}).toUpperCase();
+  document.getElementById("monthQuick").textContent=fmtHours(monthTotal);
+  document.getElementById("stopBtn").disabled=!running; document.getElementById("startBtn").disabled=!!running;
+  const box=document.getElementById("todayShifts"),arr=shiftsFor(todayKey());
+  box.innerHTML=arr.length?arr.map(x=>`<div class="shift"><div><strong>${x.from} – ${x.to}</strong><div class="small">${fmtHours(x.minutes)}</div></div><button class="danger" onclick="removeShift(${data.shifts.indexOf(x)})">Elimina</button></div>`).join(""):'<div class="empty">Nessun turno inserito oggi.</div>';
 }
 function startWork(){if(running)return;running={ts:Date.now(),from:new Date().toTimeString().slice(0,5)};renderToday()}
 function stopWork(){if(!running)return;let to=new Date().toTimeString().slice(0,5);data.shifts.push({date:todayKey(),from:running.from,to,minutes:mins(running.from,to)});running=null;save();renderToday();renderHistory()}
-function addManual(){let f=document.getElementById("from").value,t=document.getElementById("to").value;if(!f||!t)return alert("Inserisci entrambi gli orari.");data.shifts.push({date:todayKey(),from:f,to:t,minutes:mins(f,t)});save();document.getElementById("from").value="";document.getElementById("to").value="";renderToday();renderHistory()}
-function removeShift(i){if(confirm("Eliminare questo turno?")){data.shifts.splice(i,1);save();renderToday();renderHistory()}}
-function showPage(p){document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));document.getElementById(p).classList.add("active");document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active"));document.getElementById("nav"+p[0].toUpperCase()+p.slice(1)).classList.add("active");if(p==="history")renderHistory()}
-function changeMonth(n){viewDate.setMonth(viewDate.getMonth()+n);renderHistory()}
-function renderHistory(){
- const y=viewDate.getFullYear(),m=viewDate.getMonth(),first=new Date(y,m,1),last=new Date(y,m+1,0),start=(first.getDay()+6)%7;
- document.getElementById("monthName").textContent=first.toLocaleDateString("it-IT",{month:"long",year:"numeric"});
- let html="";for(let i=0;i<start;i++)html+="<div></div>";
- for(let d=1;d<=last.getDate();d++){let k=iso(new Date(y,m,d)),has=totalFor(k)>0,isToday=k===todayKey();html+=`<div class="day ${isToday?"today ":""}${has?"has":""}" onclick="showDay('${k}')">${d}</div>`}
- document.getElementById("calendarDays").innerHTML=html;
- const monthShifts=data.shifts.filter(x=>{let d=new Date(x.date+"T00:00:00");return d.getFullYear()===y&&d.getMonth()===m});
- const total=monthShifts.reduce((s,x)=>s+x.minutes,0);document.getElementById("monthTotal").textContent=`Totale mese: ${fmtHours(total)}`;
- const days=[...new Set(monthShifts.map(x=>x.date))].sort().reverse();
- document.getElementById("historyList").innerHTML=days.length?days.map(k=>{let d=new Date(k+"T00:00:00");return `<div class="history-item"><span>${d.toLocaleDateString("it-IT",{weekday:"long",day:"numeric",month:"long"})}</span><strong>${fmtHours(totalFor(k))}</strong></div>`}).join(""):'<div class="empty">Nessun giorno registrato questo mese.</div>';
+function addManualForDate(k){
+  let f=document.getElementById("historyFrom").value,t=document.getElementById("historyTo").value;
+  if(!f||!t)return alert("Inserisci entrambi gli orari.");
+  data.shifts.push({date:k,from:f,to:t,minutes:mins(f,t)});save();
+  document.getElementById("historyFrom").value="";document.getElementById("historyTo").value="";
+  renderHistory();renderToday();
 }
-function showDay(k){let d=new Date(k+"T00:00:00");if(k!==todayKey()){alert(`${d.toLocaleDateString("it-IT",{weekday:"long",day:"numeric",month:"long"})}: ${fmtHours(totalFor(k))}`)}else showPage("today")}
-function resetData(){if(confirm("Vuoi cancellare tutti i turni?")){data={shifts:[]};running=null;save();renderToday();renderHistory()}}
-renderToday();renderHistory();setInterval(renderToday,30000);
-if("serviceWorker" in navigator) window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js"));
+function addManualToday(){
+  let f=document.getElementById("from").value,t=document.getElementById("to").value;
+  if(!f||!t)return alert("Inserisci entrambi gli orari.");
+  data.shifts.push({date:todayKey(),from:f,to:t,minutes:mins(f,t)});save();
+  document.getElementById("from").value="";document.getElementById("to").value="";renderToday();renderHistory();
+}
+function removeShift(i){if(confirm("Eliminare questo turno?")){data.shifts.splice(i,1);save();renderToday();renderHistory()}}
+function showPage(p){
+  document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));document.getElementById(p).classList.add("active");
+  document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active"));document.getElementById("nav"+p[0].toUpperCase()+p.slice(1)).classList.add("active");
+  if(p==="history")renderHistory();
+}
+function changeMonth(n){viewDate.setMonth(viewDate.getMonth()+n);selectedDate=null;renderHistory()}
+function showDay(k){if(isFuture(k))return;selectedDate=k;renderHistory()}
+function renderSelectedDay(){
+  const box=document.getElementById("dayPanel");
+  if(!selectedDate){box.innerHTML="";return}
+  const d=new Date(selectedDate+"T00:00:00"), arr=shiftsFor(selectedDate), isToday=selectedDate===todayKey();
+  const title=d.toLocaleDateString("it-IT",{weekday:"long",day:"numeric",month:"long"});
+  const shiftsHtml=arr.length?arr.map(x=>`<div class="shift"><div><strong>${x.from} – ${x.to}</strong><div class="small">${fmtHours(x.minutes)}</div></div><button class="danger" onclick="removeShift(${data.shifts.indexOf(x)})">Elimina</button></div>`).join(""):'<div class="empty">Nessun turno inserito.</div>';
+  const disabled=isFuture(selectedDate);
+  box.innerHTML=`<div class="day-panel"><div class="day-panel-head"><div><h2>${title}</h2><div class="small">${isToday?'Oggi':'Giorno passato'}</div></div><div class="day-total">${fmtHours(totalFor(selectedDate))}</div></div>
+    <div class="section-title">Aggiungi ore</div>
+    <div class="manual ${disabled?'disabled-add':''}"><div class="row"><div class="field"><label>Dalle</label><input id="historyFrom" type="time"></div><div class="field"><label>Alle</label><input id="historyTo" type="time"></div></div><button class="add" onclick="addManualForDate('${selectedDate}')">Aggiungi ore</button></div>
+    <div class="section-title">Turni di questa giornata</div><div>${shiftsHtml}</div></div>`;
+}
+function renderHistory(){
+  const y=viewDate.getFullYear(),m=viewDate.getMonth(),first=new Date(y,m,1),last=new Date(y,m+1,0),start=(first.getDay()+6)%7;
+  document.getElementById("monthName").textContent=first.toLocaleDateString("it-IT",{month:"long",year:"numeric"});
+  let html="";for(let i=0;i<start;i++)html+="<div></div>";
+  for(let d=1;d<=last.getDate();d++){
+    let k=iso(new Date(y,m,d)),has=totalFor(k)>0,isToday=k===todayKey(),future=isFuture(k),selected=k===selectedDate;
+    html+=`<div class="day ${isToday?'today ':''}${future?'future ':''}${has?'has ':''}${selected?'selected':''}" onclick="showDay('${k}')">${d}</div>`;
+  }
+  document.getElementById("calendarDays").innerHTML=html;
+  const monthShifts=data.shifts.filter(x=>{let d=new Date(x.date+"T00:00:00");return d.getFullYear()===y&&d.getMonth()===m});
+  const total=monthShifts.reduce((s,x)=>s+x.minutes,0);document.getElementById("monthTotal").textContent=`Totale mese: ${fmtHours(total)}`;
+  const days=[...new Set(monthShifts.map(x=>x.date))].sort().reverse();
+  document.getElementById("historyList").innerHTML=days.length?`<div class="section-title" style="margin-top:22px">Giorni registrati</div>`+days.map(k=>{let d=new Date(k+"T00:00:00");return `<div class="history-item" onclick="showDay('${k}')"><span>${d.toLocaleDateString("it-IT",{weekday:"long",day:"numeric",month:"long"})}</span><strong>${fmtHours(totalFor(k))}</strong></div>`}).join(""):'<div class="empty">Nessun giorno registrato questo mese.</div>';
+  renderSelectedDay();
+}
+function resetData(){if(confirm("Vuoi cancellare tutti i turni?")){data={shifts:[]};running=null;save();selectedDate=todayKey();renderToday();renderHistory()}}
+renderToday();renderHistory();setInterval(renderToday,30000);setInterval(()=>{if(document.getElementById('history').classList.contains('active'))renderHistory()},30000);
+if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js"));
 </script>
 </body></html>
